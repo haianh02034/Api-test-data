@@ -1,0 +1,1 @@
+docker-compose exec c-node npm run migrate:up

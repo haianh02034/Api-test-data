@@ -1,0 +1,36 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2017", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@back-end/*": ["apps/back-end/src/*"],
+      "@class-validator": ["libs/class-validator/src/index.ts"],
+      "@db": ["libs/db/src/index.ts"],
+      "@dtos": ["libs/dtos/src/index.ts"],
+      "@entity": ["libs/entity/src/index.ts"],
+      "@guards": ["libs/guards/src/index.ts"],
+      "@logger": ["libs/logger/src/index.ts"],
+      "@nest-utils": ["libs/nest-utils/src/index.ts"],
+      "@observer": ["libs/observer/src/index.ts"],
+      "@permissions": ["libs/permissions/src/index.ts"],
+      "@queue": ["libs/queue/src/index.ts"],
+      "@react-libs/*": ["libs/react-libs/src/lib/*"],
+      "@repositories": ["libs/repositories/src/index.ts"],
+      "@transform-interceptor": ["libs/transform-interceptor/src/index.ts"],
+      "@utils": ["libs/utils/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
