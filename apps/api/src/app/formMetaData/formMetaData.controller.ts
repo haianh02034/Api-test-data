@@ -3,6 +3,8 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
+  Delete,
   Inject,
   Param,
   ParseIntPipe,
@@ -65,6 +67,67 @@ export class FormMetaDataController {
       };
     } catch (error) {
       throw new BadRequestException('Error creating form metadata');
+    }
+  }
+
+
+  @Patch(':name/edit')
+  @UseGuards(JwtAuthGuard)
+  async edit(
+    @Req() { user },
+    @Param('name') name: string,
+    @Body() updatedFormData: FormMetaDataDtos.Edit,
+  ) {
+    try {
+      // Find the existing form metadata by name
+      const formMetadata = await this.repo.findOneByOrFail({
+        where: { name },
+      });
+
+      // Update the existing data with new values
+      const updatedFormMetadata = Object.assign(formMetadata, updatedFormData);
+      const result = await this.repo.save(updatedFormMetadata);
+
+      return {
+        successfully: true,
+        data: updatedFormMetadata,
+      };
+    } catch (error) {
+      return {
+        successfully: false,
+        error: 'Error occurred while updating form metadata.',
+      };
+    }
+  }
+
+  @Delete(':name/delete')
+  @UseGuards(JwtAuthGuard)
+  async delete(@Req() { user }, @Param('name') name: string) {
+    try {
+      // Find the form metadata by name
+      const formMetadata = await this.repo.findOneByOrFail({
+        where: { name },
+      });
+
+      // Remove the form metadata
+      const result = await this.repo.remove(formMetadata);
+
+      if (!result) {
+        return {
+          successfully: false,
+          message: 'Form metadata not found for deletion.',
+        };
+      }
+
+      return {
+        successfully: true,
+        message: 'Form metadata deleted successfully.',
+      };
+    } catch (error) {
+      return {
+        successfully: false,
+        error: 'Error occurred while deleting form metadata.',
+      };
     }
   }
 

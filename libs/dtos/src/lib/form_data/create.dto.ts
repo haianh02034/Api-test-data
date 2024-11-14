@@ -6,8 +6,8 @@ export class Create {
   @Transform(({ value }) => new ObjectId(value.$oid))  // Convert the string to an ObjectId
   _id: ObjectId;
 
-  @Transform(({ value }) => new ObjectId(value.$oid))  // Convert the string to an ObjectId
-  form_id: ObjectId;
+  @IsString()
+  form_id: string;
 
   @IsString()
   meta_id: string;

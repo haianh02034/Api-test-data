@@ -5,8 +5,8 @@ export class FormData {
   @ObjectIdColumn()
   _id: ObjectId;
 
-  @ObjectIdColumn()
-  form_id: ObjectId;
+  @Column()
+  form_id: string;
 
   @Column()
   meta_id: string;

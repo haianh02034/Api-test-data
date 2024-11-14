@@ -3,6 +3,8 @@ import {
   Body,
   Controller,
   Get,
+  Patch,
+  Delete,
   Inject,
   Param,
   ParseIntPipe,
@@ -64,6 +66,67 @@ export class FormDataController {
       };
     } catch (error) {
       throw new BadRequestException('Error creating form data');
+    }
+  }
+
+
+  @Patch(':form_id/edit')
+  @UseGuards(JwtAuthGuard)
+  async edit(
+    @Req() { user },
+    @Param('form_id') form_id: string,
+    @Body() updatedFormData: FormDataDtos.Edit,
+  ) {
+    try {
+      // Find the existing form data by form_id
+      const formData = await this.repo.findOneByOrFail({
+        where: { form_id },
+      });
+
+      // Update the existing data with new values
+      const updatedFormMetadata = Object.assign(formData, updatedFormData);
+      const result = await this.repo.save(updatedFormMetadata);
+
+      return {
+        successfully: true,
+        data: updatedFormMetadata,
+      };
+    } catch (error) {
+      return {
+        successfully: false,
+        error: 'Error occurred while updating form data.',
+      };
+    }
+  }
+
+  @Delete(':form_id/delete')
+  @UseGuards(JwtAuthGuard)
+  async delete(@Req() { user }, @Param('form_id') form_id: string) {
+    try {
+      // Find the form data by form_id
+      const formData = await this.repo.findOneByOrFail({
+        where: { form_id },
+      });
+
+      // Remove the form data
+      const result = await this.repo.remove(formData);
+
+      if (!result) {
+        return {
+          successfully: false,
+          message: 'Form data not found for deletion.',
+        };
+      }
+
+      return {
+        successfully: true,
+        message: 'Form data deleted successfully.',
+      };
+    } catch (error) {
+      return {
+        successfully: false,
+        error: 'Error occurred while deleting form data.',
+      };
     }
   }
 }
