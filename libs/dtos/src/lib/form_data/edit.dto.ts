@@ -1,9 +1,9 @@
-import { IsOptional, IsString, IsObject } from 'class-validator';
+import { IsOptional, IsString, IsObject, IsNumber } from 'class-validator';
 
 export class Edit {
   @IsOptional()
-  @IsString()
-  form_id?: string;
+  @IsNumber()
+  form_id?: number;
 
   @IsOptional()
   @IsString()

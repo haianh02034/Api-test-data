@@ -1,0 +1,39 @@
+version: '3'
+
+networks:
+  www-network:
+    driver: bridge
+  www-database: # use docker-service
+    external: true
+  www-redis: # use docker-service
+    external: true
+
+
+services:
+  #Node Container
+  app-node:
+    build:
+      context: .
+      dockerfile: ./.docker/node/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./dist:/usr/src/app/dist
+      - ./ecosystem.config.js:/usr/src/app/ecosystem.config.js
+    command: ['pm2-runtime', 'start', 'ecosystem.config.js']
+    networks:
+      - www-network
+      - www-database
+      - www-redis
+
+  # Nginx Container
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-80}:80"
+    volumes:
+      - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - www-network
+    depends_on:
+      - app-node

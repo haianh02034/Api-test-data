@@ -7,6 +7,8 @@ export * from './userLog.repository';
 
 export * from './role.repository';
 
+export * from './telegramMessages.repository';
+
 export * from './formData.repository';
 
 export * from './formMetaData.repository';

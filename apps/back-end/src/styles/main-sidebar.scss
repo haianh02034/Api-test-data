@@ -1,0 +1,28 @@
+.main-sidebar {
+    .nav.nav-sidebar {
+        > .nav-item {
+            > .nav-link.active {
+                background-color: #3f6791;
+                color: #fff;
+            }
+
+            &:has(.nav-treeview) > .nav-link {
+                font-size: large;
+                font-weight: bold;
+            }
+        }
+
+        .nav-treeview {
+            display: block;
+            overflow: hidden;
+            max-height: 0px;
+            transition: all 0.3s ease-in;
+        }
+
+        @for $i from 1 through 20 {
+            .menu-open > .nav-treeview.childs--#{$i} {
+                max-height: $i * 40px;
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+  "form": {
+    "x_is_required": "{{field}} is required"
+  },
+  "showing_entries_x_to_y_of_z": "Showing entries {{startOffset}} to {{endOffset}} of {{total}}",
+  "licenses_states": {
+    "NEW": "New",
+    "ACTIVATED": "Activated",
+    "EXPIRED": "Expired",
+    "CANCELED": "Canceled",
+    "REVOKED": "Revoked"
+  },
+  "_select_": "--- Select ---"
+}

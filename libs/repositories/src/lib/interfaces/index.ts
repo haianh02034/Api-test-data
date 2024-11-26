@@ -7,9 +7,14 @@ export * from './userLog.repo.interface';
 
 export * from './role.repo.interface';
 
+export * from './telegramMessages.repo.interface';
+
 export * from './formData.interface';
 
 export * from './formMetaData.interface';
+
+
+
 
 
 

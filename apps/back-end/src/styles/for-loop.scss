@@ -1,0 +1,45 @@
+@for $i from 1 through 100 {
+    .w-#{$i} {
+        width: $i * 1%;
+    }
+
+    .mw-#{$i} {
+        max-width: $i * 1%;
+    }
+
+    .vw-#{$i} {
+        width: $i * 1vw;
+    }
+
+    .mvw-#{$i} {
+        max-width: $i * 1vw;
+    }
+
+    .h-#{$i} {
+        height: $i * 1%;
+    }
+
+    .mh-#{$i} {
+        max-height: $i * 1%;
+    }
+
+    .vh-#{$i} {
+        height: $i * 1vh;
+    }
+
+    .mvh-#{$i} {
+        max-height: $i * 1vh;
+    }
+}
+
+@for $i from 10 through 36 {
+    .font-size-#{$i} {
+        font-size: $i * 1px;
+    }
+}
+
+@for $i from 1 through 30 {
+    .grid-gap-#{$i} {
+        grid-gap: $i * 1px;
+    }
+}

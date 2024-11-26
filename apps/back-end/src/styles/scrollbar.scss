@@ -1,0 +1,11 @@
+.scrollbar {
+    &::-webkit-scrollbar {
+        width: 0;
+    }
+    &:hover::-webkit-scrollbar {
+        width: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+    }
+}

@@ -1,0 +1,85 @@
+{
+  "name": "back-end",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/back-end/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "outputPath": "dist/apps/back-end",
+        "index": "apps/back-end/src/index.html",
+        "baseHref": "/",
+        "main": "apps/back-end/src/main.tsx",
+        "polyfills": "apps/back-end/src/polyfills.ts",
+        "tsConfig": "apps/back-end/tsconfig.app.json",
+        "assets": ["apps/back-end/src/favicon.ico", "apps/back-end/src/assets"],
+        "styles": [
+          "apps/back-end/src/styles/libs/font-awesome/css/font-awesome.min.css",
+          "apps/back-end/src/styles/libs/fontawesome-free/css/all.min.css",
+          "apps/back-end/src/styles/layout/adminlte.min.css"
+        ],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "vendorChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/back-end/src/environments/environment.ts",
+              "with": "apps/back-end/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/webpack:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "back-end:build",
+        "hmr": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "back-end:build:development"
+        },
+        "production": {
+          "buildTarget": "back-end:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/back-end/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/back-end/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

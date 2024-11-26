@@ -1,12 +1,12 @@
-import { Entity, ObjectIdColumn, ObjectId, Column } from 'typeorm';
+import { Entity, ObjectIdColumn, ObjectId, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('form_data')  // Tên bảng trong MongoDB
 export class FormData {
   @ObjectIdColumn()
   _id: ObjectId;
 
-  @Column()
-  form_id: string;
+  @PrimaryGeneratedColumn()
+  form_id: number;
 
   @Column()
   meta_id: string;

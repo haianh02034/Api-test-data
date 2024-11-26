@@ -33,23 +33,66 @@ export class FormDataController {
     @Query() filters: any
   ) {
     try {
-      // Lọc dữ liệu dựa trên các filter (nếu có)
       const where = this.repo.findWhere(filters);
-
-      // Paginate dữ liệu
       const [items, total] = await this.repo.paginate(paginate, { where });
-
-      // Chuyển các entity thành DTO
       const formDataDtos = plainClass(FormDataDtos.FormDataDto, items);
-      
-      // Trả về kết quả phân trang
-      return {
+            return {
         paginate: pagination(formDataDtos, total, paginate.page, paginate.perPage),
       };
     } catch (error) {
       throw new BadRequestException('Lỗi khi lấy dữ liệu');
     }
   }
+
+  @Get(':meta_id/view')
+  async view(
+    @Param('meta_id') meta_id: string,
+    @Query() paginate: PaginateDto  
+  ) {
+    try {
+            const config = await this.repo.findOneBy({ meta_id });
+      // console.log('Fetched config:', config);
+      if (!config) {
+        throw new BadRequestException(`Form metadata with meta_id ${meta_id} not found.`);
+      }
+      if (!config.data) {
+        throw new BadRequestException('Form data is missing.');
+      }
+      let items = [];
+      if (Array.isArray(config.data)) {
+        items = config.data;
+      } else {
+        items.push(config.data);
+      }
+      // console.log('Raw items before transformation:', items);
+      const transformedItems = items.map(item => {
+        return {
+          _id: config._id ? config._id.toString() : '',  // Handle undefined _id
+          form_id: config.form_id ? config.form_id.toString() : '',  // Handle undefined form_id
+          meta_id: config.meta_id || '',  // Handle undefined meta_id
+          data: item,  // The form data       
+        };
+      });
+      console.log('Transformed form data:', transformedItems);
+      const total = transformedItems.length;
+      const resultCount = transformedItems.length;
+      const paginatedItems = transformedItems.slice((paginate.page - 1) * paginate.perPage, paginate.page * paginate.perPage);
+      return {
+        paginate: {
+          page: paginate.page,
+          perPage: paginate.perPage,
+          total,
+          resultCount,
+          items: paginatedItems,  
+        },
+      };
+    } catch (error) {
+      console.error('Error occurred while fetching form metadata:', error);
+            throw new BadRequestException('Error occurred while fetching form metadata: ' + error.message);
+    }
+  }
+
+
 
   @Post('add')
   @UseGuards(JwtAuthGuard)
